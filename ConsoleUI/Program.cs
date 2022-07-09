@@ -13,16 +13,23 @@ using DataAccess.Concrete.InMemory;
 
 
 
-
-
-
-
 ProductManager productManager = new ProductManager(new EfProductDal());
-foreach (var product in productManager.GetByUnitPrice(40,100))
+foreach (var product in productManager.GetProductDetailDto())
 {
-    Console.WriteLine($"{product.ProductName,-35} {product.UnitPrice,20}");
+    Console.WriteLine($"{product.ProductName,-35} {product.CategoryName,20}");
 }
 
+//CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+//foreach (var category in categoryManager.GetAll())
+//{
+//    Console.WriteLine(category.CategoryName);
+//}
+
+//ProductManager productManager = new ProductManager(new EfProductDal());
+//foreach (var product in productManager.GetByUnitPrice(40,100))
+//{
+//    Console.WriteLine($"{product.ProductName,-35} {product.UnitPrice,20}");
+//}
 
 //ProductManager productManager = new ProductManager(new EfProductDal());
 //foreach (var product in productManager.GetAllByCategoryId(5))
