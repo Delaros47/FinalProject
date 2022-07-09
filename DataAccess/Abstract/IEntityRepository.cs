@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace DataAccess.Abstract
 {
     #region Comment
-    //Class means it is reference type and IEntity means either we can write IEntity or anything implemented from IEntity
+    //Class means it is reference type and IEntity means either we can write IEntity or anything implemented from IEntity and new() means our entity can be gotten instance from it since IEntity is an interface that's why we cannot use it cause of we can use that we want to prevent user to write IEntity in generic type
     #endregion
-    public interface IEntityRepository<T> where T : class,IEntity
+    public interface IEntityRepository<T> where T : class,IEntity,new()
     {
         List<T> GetAll(Expression<Func<T,bool>> filter=null);
         T Get(Expression<Func<T,bool>> filter);
