@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -24,35 +25,38 @@ namespace Business.Concrete
         {
             if (product.ProductName.Length<2)
             {
-                return new ErrorResult("Product name min length should be two or more");
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
             _productDal.Add(product);
-            return new SuccessResult("Product has added successfully.");
+            return new SuccessResult(Messages.ProductAdded);
         }
 
-        public Product Get(int productId)
+        public IDataResult<Product> Get(int productId)
         {
-            return _productDal.Get(p=>p.ProductId==productId);
+            throw new NotImplementedException();
         }
 
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
-            return _productDal.GetAll();
+            if (DateTime.Now.Hour==22)
+            {
+                return new ErrorDataResult(Messages.MaintanceTime);
+            }
         }
 
-        public List<Product> GetAllByCategoryId(int categoryId)
+        public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
-            return _productDal.GetAll(p=>p.CategoryId==categoryId);
+            throw new NotImplementedException();
         }
 
-        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _productDal.GetAll(p=>p.UnitPrice>=min && p.UnitPrice<=max);
+            throw new NotImplementedException();
         }
 
-        public List<ProductDetailDto> GetProductDetailDto()
+        public IDataResult<List<ProductDetailDto>> GetProductDetailDto()
         {
-            return _productDal.GetProductDetailDto();
+            throw new NotImplementedException();
         }
     }
 }
