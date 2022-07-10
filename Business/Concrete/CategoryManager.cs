@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Utilities.Results.Abstract;
+using Universal.Utilities.Results.Concrete;
 
 namespace Business.Concrete
 {
@@ -17,14 +19,14 @@ namespace Business.Concrete
             _categoryDal = categoryDal;
         }
 
-        public Category Get(int categoryId)
+        public IDataResult<Category> Get(int categoryId)
         {
-            return _categoryDal.Get(c=>c.CategoryId==categoryId);
+            return new SuccessDataResult<Category>(_categoryDal.Get(c=>c.CategoryId==categoryId));
         }
 
-        public List<Category> GetAll()
+        public IDataResult<List<Category>> GetAll()
         {
-            return _categoryDal.GetAll();
+            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
         }
     }
 }

@@ -14,10 +14,19 @@ using DataAccess.Concrete.InMemory;
 
 
 ProductManager productManager = new ProductManager(new EfProductDal());
-foreach (var product in productManager.GetProductDetailDto())
+var result = productManager.GetAll();
+if (result.Success)
 {
-    Console.WriteLine($"{product.ProductName,-35} {product.CategoryName,20}");
+    foreach (var product in productManager.GetAll().Data)
+    {
+        Console.WriteLine($"{product.ProductName,-35} {product.UnitPrice,20}");
+    }
 }
+else
+{
+    Console.WriteLine(result.Message);
+}
+
 
 //CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 //foreach (var category in categoryManager.GetAll())

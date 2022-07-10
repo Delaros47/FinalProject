@@ -33,30 +33,32 @@ namespace Business.Concrete
 
         public IDataResult<Product> Get(int productId)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Product>(_productDal.Get(p=>p.ProductId==productId));
         }
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour==22)
+            if (DateTime.Now.Hour==23)
             {
-                return new ErrorDataResult(Messages.MaintanceTime);
+                return new ErrorDataResult<List<Product>>(Messages.MaintanceTime);
             }
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll());
+
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.CategoryId==categoryId));
         }
 
         public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p=>p.UnitPrice>=min && p.UnitPrice<=max));
         }
 
         public IDataResult<List<ProductDetailDto>> GetProductDetailDto()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetailDto());
         }
     }
 }
