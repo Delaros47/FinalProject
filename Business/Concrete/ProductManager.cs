@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Utilities.Results.Abstract;
+using Universal.Utilities.Results.Concrete;
 
 namespace Business.Concrete
 {
@@ -16,6 +18,21 @@ namespace Business.Concrete
         public ProductManager(IProductDal productDal)
         {
             _productDal = productDal;
+        }
+
+        public IResult Add(Product product)
+        {
+            if (product.ProductName.Length<2)
+            {
+                return new ErrorResult("Product name min length should be two or more");
+            }
+            _productDal.Add(product);
+            return new SuccessResult("Product has added successfully.");
+        }
+
+        public Product Get(int productId)
+        {
+            return _productDal.Get(p=>p.ProductId==productId);
         }
 
         public List<Product> GetAll()
