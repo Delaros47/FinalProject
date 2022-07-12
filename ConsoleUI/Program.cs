@@ -1,9 +1,7 @@
 ﻿using Business.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
-
-
-
+using Entities.Concrete;
 
 
 
@@ -14,19 +12,26 @@ using DataAccess.Concrete.InMemory;
 
 
 ProductManager productManager = new ProductManager(new EfProductDal());
-var result = productManager.GetAll();
-if (result.Success)
+var error = productManager.Add(new Product { CategoryId=2,ProductName="RAM",UnitPrice=250,UnitsInStock=500});
+if (!error.Success)
 {
-    foreach (var product in productManager.GetAll().Data)
-    {
-        Console.WriteLine($"{product.ProductName,-35} {product.UnitPrice,20}");
-    }
-}
-else
-{
-    Console.WriteLine(result.Message);
+    Console.WriteLine(error.Message);
 }
 
+
+//ProductManager productManager = new ProductManager(new EfProductDal());
+//var result = productManager.GetAll();
+//if (result.Success)
+//{
+//    foreach (var product in productManager.GetAll().Data)
+//    {
+//        Console.WriteLine($"{product.ProductName,-35} {product.UnitPrice,20}");
+//    }
+//}
+//else
+//{
+//    Console.WriteLine(result.Message);
+//}
 
 //CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 //foreach (var category in categoryManager.GetAll())
