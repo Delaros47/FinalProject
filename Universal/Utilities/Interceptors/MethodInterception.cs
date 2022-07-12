@@ -9,7 +9,7 @@ namespace Universal.Utilities.Interceptors
 {
     #region Comment
     /*
-     * Here invocation means that it is a method if we want OnBefore or OnAfter before method runs first it will run our
+     * Here invocation means that it is a method on Business Layer if we want OnBefore or OnAfter before method runs first it will run our
      * Codes
      */
     #endregion

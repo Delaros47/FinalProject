@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using DataAccess.Abstract;
@@ -20,16 +21,28 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         private readonly IProductDal _productDal;
-        public ProductManager(IProductDal productDal)
+        private readonly ILogger _logger;
+        public ProductManager(IProductDal productDal, ILogger logger)
         {
             _productDal = productDal;
+            _logger = logger;
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
-        {           
-            _productDal.Add(product);
-            return new SuccessResult(Messages.ProductAdded);
+        {
+            try
+            {
+                _logger.Log();
+                _productDal.Add(product);
+                return new SuccessResult(Messages.ProductAdded);
+            }
+            catch (Exception exception)
+            {
+                _logger.Log();
+                throw;
+            }
+            
         }
 
         public IResult Delete(Product product)
