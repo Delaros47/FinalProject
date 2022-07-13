@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Universal.CrossCuttingConcerns.Validation;
 using Universal.Utilities.Aspects.Autofac.Validation;
+using Universal.Utilities.Business;
 using Universal.Utilities.Results.Abstract;
 using Universal.Utilities.Results.Concrete;
 
@@ -20,29 +21,12 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
+        private readonly ICategoryService _categoryService;
         private readonly IProductDal _productDal;
-        private readonly ILogger _logger;
-        public ProductManager(IProductDal productDal, ILogger logger)
+        public ProductManager(IProductDal productDal, ICategoryService categoryService)
         {
             _productDal = productDal;
-            _logger = logger;
-        }
-
-        [ValidationAspect(typeof(ProductValidator))]
-        public IResult Add(Product product)
-        {
-            try
-            {
-                _logger.Log();
-                _productDal.Add(product);
-                return new SuccessResult(Messages.ProductAdded);
-            }
-            catch (Exception exception)
-            {
-                _logger.Log();
-                throw;
-            }
-            
+            _categoryService = categoryService;
         }
 
         public IResult Delete(Product product)
@@ -85,5 +69,57 @@ namespace Business.Concrete
             _productDal.Update(product);
             return new SuccessResult(Messages.ProductUpdated);
         }
+
+        [ValidationAspect(typeof(ProductValidator))]
+        public IResult Add(Product product)
+        {
+            IResult result = BusinessRules.Run(
+                CheckIfProductCountOfCategoryLimitExeceeded(product.CategoryId), 
+                CheckIfTheSameProductNameExists(product.ProductName),
+                CheckIfCategoryLimitExeceeded());
+
+            if (result!=null)
+            {
+                return result;
+            }
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+        #region Comment
+        /*
+         * These are our Business codes so they should be private and BusinessRules.Run our Business Rules engine it 
+         * check it all then returns us the result of it
+         */
+        #endregion
+        private IResult CheckIfProductCountOfCategoryLimitExeceeded(int categoryId)
+        {
+            var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
+            if (result >= 15)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryLimitExeceeded);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfTheSameProductNameExists(string productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.TheSameProductNameExists);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfCategoryLimitExeceeded()
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count>15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExeceeded);
+            }
+            return new SuccessResult();
+        }
+
     }
 }

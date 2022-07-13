@@ -11,8 +11,8 @@ using Entities.Concrete;
 
 
 
-ProductManager productManager = new ProductManager(new EfProductDal());
-var error = productManager.Add(new Product { CategoryId=2,ProductName="RAM",UnitPrice=250,UnitsInStock=500});
+ProductManager productManager = new ProductManager(new EfProductDal(),new CategoryManager(new EfCategoryDal()));
+var error = productManager.Add(new Product { CategoryId=2,ProductName="Kgfh",UnitPrice=250,UnitsInStock=500});
 if (!error.Success)
 {
     Console.WriteLine(error.Message);
