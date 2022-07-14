@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Universal.Entities
+namespace Universal.Entities.Abstract
 {
     #region Comment
     //If any classes inherited from IEntity means that they are database table

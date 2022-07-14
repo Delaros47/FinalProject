@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Universal.Entities;
+using Universal.Entities.Abstract;
 
 namespace Universal.DataAccess.EntityFramework
 {

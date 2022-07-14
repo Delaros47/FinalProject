@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Universal.Entities
+namespace Universal.Entities.Abstract
 {
     public interface IDto
     {

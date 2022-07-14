@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Universal.Entities.Abstract;
 
-namespace Entities.Concrete
+namespace Universal.Entities.Concrete
 {
-    public class Category:IEntity
+    public class OperationClaim:IEntity
     {
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
     }
 }
