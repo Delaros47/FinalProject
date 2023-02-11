@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Utilities.Results.Abstract;
 
 namespace Business.Abstract
 {
@@ -15,6 +16,6 @@ namespace Business.Abstract
         List<Product> GetByUnitPrice(decimal min,decimal max);
         List<ProductDetailDto> GetProductDetails();
         Product GetById(int productId);
-        void Add(Product product);
+        IResult Add(Product product);
     }
 }

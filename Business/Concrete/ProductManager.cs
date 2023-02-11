@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Utilities.Results.Abstract;
+using Universal.Utilities.Results.Concrete;
 
 namespace Business.Concrete
 {
@@ -19,10 +21,6 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
-        public void Add(Product product)
-        {
-            _productDal.Add(product);
-        }
 
         public List<Product> GetAll()
         {
@@ -47,6 +45,16 @@ namespace Business.Concrete
         public List<ProductDetailDto> GetProductDetails()
         {
             return _productDal.GetProductDetails();
+        }
+
+        IResult IProductService.Add(Product product)
+        {
+            if (product.ProductName.Length<2)
+            {
+                return new ErrorResult("Product Name cannot be less than two characters");
+            }
+            _productDal.Add(product);
+            return new SuccessResult("Product has successfully added");
         }
     }
 }
