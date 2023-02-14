@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Utilities.Results.Abstract;
+using Universal.Utilities.Results.Concrete;
 
 namespace Business.Concrete
 {
@@ -20,14 +22,14 @@ namespace Business.Concrete
             _categoryDal = categoryDal;
         }
 
-        public List<Category> GetAll()
+        public IDataResult<List<Category>> GetAll()
         {
-            return _categoryDal.GetAll();
+            return new SuccessDataResult<List<Category>>(_categoryDal.GetAll());
         }
 
-        public Category GetById(int categoryId)
+        public IDataResult<Category> GetById(int categoryId)
         {
-            return _categoryDal.Get(c=>c.CategoryId==categoryId);
+            return new SuccessDataResult<Category>(_categoryDal.Get(c=>c.CategoryId==categoryId));
         }
     }
 }
