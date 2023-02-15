@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Universal.Aspects.Autofac.Validation;
 using Universal.CrossCuttingConcerns;
 using Universal.Utilities.Results.Abstract;
 using Universal.Utilities.Results.Concrete;
@@ -25,9 +26,9 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            ValidationTool.Validate(new ProductValidator(),product);
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
