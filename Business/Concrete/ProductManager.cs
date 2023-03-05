@@ -29,13 +29,17 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            _productDal.Add(product);
-            return new SuccessResult(Messages.ProductAdded);
+            if(CheckIfProductOfCategoryCorrect(product.CategoryId).Success)
+            {
+                _productDal.Add(product);
+                return new SuccessResult(Messages.ProductAdded);
+            }
+            return new ErrorResult();
         }
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour==17)
+            if (DateTime.Now.Hour==10)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
@@ -60,6 +64,24 @@ namespace Business.Concrete
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
+        }
+
+        private IResult CheckIfProductOfCategoryCorrect(int categoryId)
+        {
+            if (_productDal.GetAll(x => x.CategoryId == categoryId).Count > 10)
+            {
+                return new ErrorResult(Messages.ProductOfCategoryNumber);
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfTheSameProductNameExists(string productName)
+        {
+            if (_productDal.GetAll(p=>p.ProductName==productName).Any())
+            {
+                return new ErrorResult(Messages.TheSameProductNameExists);
+            }
+            return new SuccessResult();
         }
 
 

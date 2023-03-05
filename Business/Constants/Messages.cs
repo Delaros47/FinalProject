@@ -13,5 +13,7 @@ namespace Business.Constants
         public static string ProductInvalidName = "Product Name cannot be less than two characters";
 
         public static string MaintenanceTime = "Maintenance Time is now!";
+        public static string ProductOfCategoryNumber ="Category has more than 10 products";
+        public static string TheSameProductNameExists="The same product name already exists";
     }
 }
