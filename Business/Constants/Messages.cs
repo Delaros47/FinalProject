@@ -15,5 +15,6 @@ namespace Business.Constants
         public static string MaintenanceTime = "Maintenance Time is now!";
         public static string ProductOfCategoryNumber ="Category has more than 10 products";
         public static string TheSameProductNameExists="The same product name already exists";
+        public static string CategoryLimitExceded = "The category number cannot be greater than 15";
     }
 }
